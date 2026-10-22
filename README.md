@@ -16,7 +16,7 @@
 
 **诊断信号**：WASAPI 引擎探针稳定返回 `E_NOINTERFACE (0x80004002)`，即音频引擎无法为渲染端点创建音频流——这是"全应用无声"的确定性根因信号。
 
-<p align="center"><img src="images/rootcause.jpg" alt="根因链条" width="80%"></p>
+<p align="center"><img src="images/rootcause.png" alt="根因链条" width="80%"></p>
 
 ## 修复方案（有效组合）
 
@@ -40,7 +40,7 @@
 
 ## 可复用技能（交给任意 AI Agent）
 
-<p align="center"><img src="images/skill-map.jpg" alt="技能包架构" width="80%"></p>
+<p align="center"><img src="images/skill-map.png" alt="技能包架构" width="80%"></p>
 
 目录 [`skill/`](skill/) 是一个完整的 Agent Skill 包，把 8 层诊断-修复决策树封装为可直接执行的流程：
 
