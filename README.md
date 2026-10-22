@@ -2,6 +2,8 @@
 
 > 一次真实的 Windows 全应用无声故障完整复盘：从现象定位到根因、从根因到修复，并沉淀为可交给任意 AI Agent 直接执行的诊断-修复技能。
 
+<p align="center"><img src="images/cover.jpg" alt="项目封面" width="80%"></p>
+
 ## 问题背景
 
 2026-10-21，一台机械革命无界15X（WUJIE15XA / Uniwill GX5HRXG-GX4HRXL，AMD Hawk Point，Windows 11 25H2 Build 26200）突然出现**打开视频听不到声音，且所有应用（系统音效、音乐、视频）全部无声**。
@@ -13,6 +15,8 @@
 2026-10-10 Windows Update 更新了 HDA 总线驱动 `hdaudbus`（10.0.26100.9711）后，codec 的 SUBSYS 被解析为 fallback 值 `14F10101`，而厂商 Senary 驱动（Conexant CX11970 系）的 inf 只认 OEM 定制值 `1D05137D` → 驱动失配 → 设备落到微软 HDA 驱动 → 微软 HDA 驱动无法激活模拟扬声器端点（SPDIF 可、扬声器不可）→ 全应用无声。
 
 **诊断信号**：WASAPI 引擎探针稳定返回 `E_NOINTERFACE (0x80004002)`，即音频引擎无法为渲染端点创建音频流——这是"全应用无声"的确定性根因信号。
+
+<p align="center"><img src="images/rootcause.jpg" alt="根因链条" width="80%"></p>
 
 ## 修复方案（有效组合）
 
@@ -28,11 +32,15 @@
 
 > 备选方案（本案例未用）：修改驱动 inf 的 Models 节加入 fallback SUBSYS + 禁用驱动签名强制安装。参考同款 GitHub 项目 `sharkcpt/Mechrevo-Tongfang-Andio-Senary-Nahimic-Driver-FIX-Sampling-rate`。
 
+<p align="center"><img src="images/fix-flow.jpg" alt="修复流程" width="80%"></p>
+
 ## 经验文档
 
 - [docs/Windows电脑无声问题诊断与修复-经验文档.md](docs/Windows电脑无声问题诊断与修复-经验文档.md) —— 完整复盘：时间线、分层诊断路径、根因链条、修复表、12 条踩坑教训、关键 ID 附录。
 
 ## 可复用技能（交给任意 AI Agent）
+
+<p align="center"><img src="images/skill-map.jpg" alt="技能包架构" width="80%"></p>
 
 目录 [`skill/`](skill/) 是一个完整的 Agent Skill 包，把 8 层诊断-修复决策树封装为可直接执行的流程：
 
